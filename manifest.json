@@ -1,0 +1,21 @@
+{
+    "manifest_version" : 3,
+    "name" : "Headline Mini Rhyme",
+    "description": "Extension to convert TOI headlines to mini rhymes",
+    "version": "0.0.1",
+    "action": {
+        "default_icon": "hide.png"
+    },
+    "permissions": [
+        "activeTab"
+    ],
+    "content_scripts": [
+        {
+          "matches": ["*://timesofindia.indiatimes.com/*"], 
+          "js": ["content.js"]
+        }
+      ]
+}
+
+
+  
