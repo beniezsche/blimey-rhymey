@@ -1,70 +1,42 @@
 // content.js
-// Define the text you want to replace and its replacement
-const textToReplace = "The Times Of India";
-const replacementText = "Replaced Text";
 
-const OPEN_AI_API_KEY = "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";
+const constructRequest = (headline) => {
+  const requestData = {
+    inputs: headline,
+    parameters: {
+        temperature: 0.50,
+        max_tokens: 500,
+        top_p:0.95,
+        repeat_penalty:1.2, 
+        top_k:150,
+        echo: false
+    }
+  }
 
-const endpoint = 'https://api.openai.com/v1/chat/completions';
+  return requestData
 
-// Function to replace text
-function replaceText() {
+}
 
-    //   // Example: Wait for DOMContentLoaded
-    // document.addEventListener("DOMContentLoaded", function () {
-    //   // Your code here
+const cleanRhyme = (text) => {
+  let splitText = text.split(':')
+  return splitText[1]
+}
 
-    // });
+const sendHeadline = (requestData, element) => {
 
-    let elements = document.body.querySelectorAll('#topnews h3.hdg3'); //h3.hdg3');
+  chrome.runtime.sendMessage(requestData, response => {
+    element.innerText = cleanRhyme(response["generated_text"])
+  })
+
+}
+
+const replaceText = () => {
+
+    let elements = document.body.querySelectorAll('#topnews h3.hdg3');
 
     elements.forEach((elem) => {
-      // console.log(elem);
-
-      if(elem.nodeType === Node.TEXT_NODE) {
-        console.log("text");
-      }
-
-      let words = elem.innerText.split(' ');
-      let wordSize = words.length;
-
-      console.log(words[wordSize - 1]);
-
-      // elem.innerText = elem.innerText + " and your girlfriend is a whore."
+      sendHeadline(constructRequest(elem.innerText) ,elem)
     });
-
-    const requestData = {
-      model: 'gpt-3.5-turbo',
-      messages: [
-        {
-          role: 'system',
-          content: 'You are a poetic assistant, skilled in explaining complex programming concepts with creative flair.'
-        },
-        {
-          role: 'user',
-          content: 'Compose a poem that explains the concept of recursion in programming.'
-        }
-      ]
-    };
-    
-    // fetch(endpoint, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Authorization': `Bearer ${OPEN_AI_API_KEY}`
-    //   },
-    //   body: JSON.stringify(requestData)
-    // })
-    // .then(response => response.json())
-    // .then(data => {
-    //   // Handle the API response data here
-    //   console.log(data);
-    // })
-    // .catch(error => {
-    //   // Handle errors
-    //   console.error(error);
-    // });
-
 }
 
 // Call the replaceText function

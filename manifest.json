@@ -1,13 +1,19 @@
 {
     "manifest_version" : 3,
-    "name" : "Headline Mini Rhyme",
-    "description": "Extension to convert TOI headlines to mini rhymes",
+    "name" : "Blimey Rhymey",
+    "description": "Convert news headlines to fun",
     "version": "0.0.1",
     "action": {
         "default_icon": "hide.png"
     },
+    "background": {
+      "service_worker": "background.js"
+    },
     "permissions": [
         "activeTab"
+    ],
+    "host_permissions": [
+      "https://*/*"
     ],
     "content_scripts": [
         {
