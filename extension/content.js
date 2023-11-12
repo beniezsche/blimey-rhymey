@@ -17,17 +17,15 @@ const constructRequest = (headline) => {
 
 }
 
-const cleanRhyme = (text) => {
-  let splitText = text.split(':');
-  return splitText[1];
+const getRhymeForHeadline = (requestData, element) => {
+  chrome.runtime.sendMessage(requestData, response => {
+    replaceHeadlineWithRhyme(element, response["generated_text"]);
+  });
 }
 
-const changeHeadline = (requestData, element) => {
-
-  chrome.runtime.sendMessage(requestData, response => {
-    element.innerText = response["generated_text"];
-  })
-
+const replaceHeadlineWithRhyme = (element, rhyme) => {
+  console.log(rhyme);
+  element.innerText = rhyme;
 }
 
 const replaceText = () => {
@@ -44,7 +42,7 @@ const replaceText = () => {
     });
 
     allElements.forEach((element) => {
-      changeHeadline(constructRequest(element.innerText) , element);
+      getRhymeForHeadline(constructRequest(element.innerText) , element);
     });
 }
 
