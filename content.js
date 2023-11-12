@@ -11,31 +11,40 @@ const constructRequest = (headline) => {
         top_k:150,
         echo: false
     }
-  }
+  };
 
-  return requestData
+  return requestData;
 
 }
 
 const cleanRhyme = (text) => {
-  let splitText = text.split(':')
-  return splitText[1]
+  let splitText = text.split(':');
+  return splitText[1];
 }
 
-const sendHeadline = (requestData, element) => {
+const changeHeadline = (requestData, element) => {
 
   chrome.runtime.sendMessage(requestData, response => {
-    element.innerText = cleanRhyme(response["generated_text"])
+    element.innerText = response["generated_text"];
   })
 
 }
 
 const replaceText = () => {
 
-    let elements = document.body.querySelectorAll('#topnews h3.hdg3');
+    let topHeadlineElement = document.body.querySelectorAll('#topnews h2.hdg3');
+    let headlineElements = document.body.querySelectorAll('#topnews h3.hdg3');
 
-    elements.forEach((elem) => {
-      sendHeadline(constructRequest(elem.innerText) ,elem)
+    let allElements = [];
+
+    allElements.push(topHeadlineElement[0]);
+
+    headlineElements.forEach((element) => {
+      allElements.push(element)
+    });
+
+    allElements.forEach((element) => {
+      changeHeadline(constructRequest(element.innerText) , element);
     });
 }
 
