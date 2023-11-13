@@ -1,6 +1,6 @@
 // background script
 
-const endpoint = 'https://f41a-34-136-193-228.ngrok-free.app/generate' //use the ngrok public generated in the colab file
+const endpoint = 'https://7823-35-227-140-20.ngrok-free.app/generate' //use the ngrok public generated in the colab file
 
 chrome.runtime.onMessage.addListener( function (message, sender, senderResponse) {
 
